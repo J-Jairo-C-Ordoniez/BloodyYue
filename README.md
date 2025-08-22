@@ -1,30 +1,15 @@
-# 🎨 BloodyYue
+# BloodyYue (Next.js + MySQL Starter)
 
-Sistema web profesional desarrollado para la artista digital **BloodyYue**, enfocado en potenciar su presencia online, mejorar su portafolio artístico y facilitar la comunicación y gestión de comisiones con sus clientes.
+Proyecto base para **frontend + API** usando **Next.js** y **MySQL** en JavaScript.
+Arquitectura inspirada en **MVC** (models en `/models`, control en API) con UI escalable (Atomic Design si lo necesitas).
 
----
+## 📦 Tech
+- Next.js (pages router)
+- React
+- MySQL (mysql2/promise)
 
-## 📌 Descripción del Proyecto
-
-**BloodyYue** es una plataforma web personalizable que permite a la artista:
-
-- Gestionar su perfil artístico.
-- Publicar y compartir sus obras.
-- Ofrecer comisiones detalladas.
-- Recibir compras, gestionar ventas y respuestas de clientes.
-- Conectar redes sociales y mostrar ejemplos de su trabajo.
-
----
-
-## 🚀 Tecnologías Utilizadas
-- **Node.js** con **NextJS**
-- **JWT** para autenticación segura
-- **MySQL** como base de datos relacional
-- **Tailwind CSS** para estilos responsivos
-
----
-
-## 📁 Estructura de Carpetas (propuesta)
+## 🗂 Arquitectura
+```
 bloodyyue/
 ├── public/                     # Recursos públicos: imágenes, íconos, etc.
 │
@@ -35,16 +20,10 @@ bloodyyue/
 │   ├── atoms/
 │   ├── molecules/
 │   ├── organisms/
-│   ├── templates/
-│   └── layout/
 │
 ├── pages/                     # Vistas del frontend (Next.js)
-│   ├── index.jsx              # Página principal
-│   ├── login.jsx
-│   ├── dashboard.jsx
-│   ├── commissions/
-│   │   ├── create.jsx
-│   │   └── [id].jsx
+│   ├── index.js               # Página principal
+│   ├── _app.js
 │   └── api/                   # API Routes = controladores REST accesibles por frontend
 │       ├── auth/
 │       │   ├── login.js
@@ -59,17 +38,9 @@ bloodyyue/
 │           └── [post_id].js
 │
 ├── controllers/               # Lógica de negocio
-│   ├── authController.js
-│   ├── postController.js
-│   ├── commissionController.js
-│   └── userController.js
 │
 ├── models/                    # Acceso a la base de datos
-│   ├── UserModel.js
-│   ├── PostModel.js
-│   ├── CommissionModel.js
-│   └── DB.js                  # Opcional: exporta todas las conexiones
-│
+|
 ├── config/                    # Configuración
 │   ├── db.js                  # Conexión a MySQL
 │   ├── jwt.js                 # Secret + funciones JWT
@@ -80,203 +51,70 @@ bloodyyue/
 │   └── validators.js          # Validación de inputs (opcional)
 │
 ├── hooks/                     # Custom hooks (opcional)
-│   └── useAuth.js
+|
 │
-├── context/
+├── context/                   # Estado global con Context API (opcional)
+│   └── AuthContext.js
+│
+├── .env                       # Variables de entorno
+├── next.config.js
+├── tailwind.config.js
+└── README.md
 
+```
 
----
+## 🚀 Empezar
 
-## 🧩 Base de Datos
+1. Clona y entra:
+```bash
+npm install
+cp .env.example .env.local   # Edita credenciales
+npm run dev
+```
 
-La base de datos está diseñada con un enfoque relacional y escalable. Incluye tablas como:
+2. Crea la base de datos y tabla (ejemplo):
+```sql
+CREATE DATABASE IF NOT EXISTS bloodyyue;
+USE bloodyyue;
 
-- `users`, `roles`, `social_links`
-- `posts`, `type_post`, `labels`, `labels_x_post`
-- `commissions`, `sales`, `details_sale`, `payment_methods`
-- `reactions_x_post`, `response_client`
+CREATE TABLE IF NOT EXISTS commissions (
+  commission_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(100),
+  type VARCHAR(100),
+  details TEXT,
+  url_example VARCHAR(255),
+  price FLOAT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
 
-📌 Para ver el modelo completo, revisa el archivo [`/docs/database-diagram.png`]
+3. Prueba la API:
+- GET http://localhost:3000/api/commissions
+- POST http://localhost:3000/api/commissions
 
-## 🧩 Modelo de Datos 
-### users
+Body JSON de ejemplo:
+```json
+{
+  "title": "Retrato Digital",
+  "type": "Ilustración",
+  "details": "Estilo BloodyYue",
+  "url_example": "https://...",
+  "price": 120
+}
+```
 
-| Campo                | Tipo              | Descripción                |
-|----------------------|-------------------|----------------------------|
-| user_id              | primary key       | Identificador único        |
-| name                 | varchar(50)       | Nombre del usuario         |
-| email                | varchar(50)       | Correo electrónico         |
-| password             | varchar(255)      | Contraseña                 |
-| avatar               | varchar(255)      | URL del avatar             |
-| url_terms_conditions | varchar(255)      | URL de términos y condiciones |
-| pitch_video          | varchar(255)      | URL de video de presentación |
-| biography            | text              | Biografía                  |
-| details              | text              | Detalles adicionales       |
-| rol_id               | int unsigned      | Rol asociado               |
-| pais                 | varchar(255)      | País                       |
-| created_at           | timestamp         | Fecha de creación          |
-| updated_at           | timestamp         | Fecha de actualización     |
+## ⚙️ Configuración MySQL
+Edita `.env.local`:
+```
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=
+DB_NAME=bloodyyue
+DB_PORT=3306
+```
 
-### roles
-
-| Campo        | Tipo         | Descripción            |
-|--------------|--------------|------------------------|
-| rol_id       | primary key  | Identificador único    |
-| title        | varchar(50)  | Título del rol         |
-| description  | text         | Descripción            |
-| permissions  | JSON (TEXT)  | Permisos asociados     |
-| created_at   | timestamp    | Fecha de creación      |
-| updated_at   | timestamp    | Fecha de actualización |
-
-### social_links
-
-| Campo            | Tipo         | Descripción            |
-|------------------|--------------|------------------------|
-| social_links_id  | primary key  | Identificador único    |
-| title            | varchar(50)  | Nombre de la red social|
-| url_social       | varchar(255) | URL de la red social   |
-| created_at       | timestamp    | Fecha de creación      |
-| updated_at       | timestamp    | Fecha de actualización |
-
-### social_x_user
-
-| Campo            | Tipo         | Descripción            |
-|------------------|--------------|------------------------|
-| sxu_id           | primary key  | Identificador único    |
-| user_id          | int unsigned | Usuario asociado       |
-| social_links_id  | int unsigned | Red social asociada    |
-| created_at       | timestamp    | Fecha de creación      |
-| updated_at       | timestamp    | Fecha de actualización |
-
-### posts
-
-| Campo        | Tipo           | Descripción            |
-|--------------|----------------|------------------------|
-| post_id      | primary key    | Identificador único    |
-| user_id      | int unsigned   | Autor                  |
-| title        | varchar(100)   | Título                 |
-| description  | text           | Descripción            |
-| url_content  | varchar(255)   | URL del contenido      |
-| type         | int unsigned   | Tipo de publicación    |
-| created_at   | timestamp      | Fecha de creación      |
-| updated_at   | timestamp      | Fecha de actualización |
-
-### type_post
-
-| Campo         | Tipo         | Descripción            |
-|---------------|--------------|------------------------|
-| type_post_id  | primary key  | Identificador único    |
-| title         | varchar(50)  | Título                 |
-| description   | text         | Descripción            |
-| created_at    | timestamp    | Fecha de creación      |
-| updated_at    | timestamp    | Fecha de actualización |
-
-### labels
-
-| Campo      | Tipo         | Descripción            |
-|------------|--------------|------------------------|
-| label_id   | primary key  | Identificador único    |
-| title      | varchar(50)  | Título                 |
-| description| text         | Descripción            |
-| created_at | timestamp    | Fecha de creación      |
-| updated_at | timestamp    | Fecha de actualización |
-
-### labels_x_post
-
-| Campo     | Tipo         | Descripción            |
-|-----------|--------------|------------------------|
-| lxp_id    | primary key  | Identificador único    |
-| post_id   | int unsigned | Publicación asociada   |
-| label_id  | int unsigned | Etiqueta asociada      |
-| created_at| timestamp    | Fecha de creación      |
-| updated_at| timestamp    | Fecha de actualización |
-
-### commissions
-
-| Campo        | Tipo           | Descripción            |
-|--------------|----------------|------------------------|
-| commission_id| primary key    | Identificador único    |
-| title        | varchar(100)   | Título                 |
-| type         | varchar(100)   | Tipo de comisión       |
-| details      | text           | Detalles               |
-| url_example  | varchar(255)   | URL de ejemplo         |
-| price        | float          | Precio                 |
-| created_at   | timestamp      | Fecha de creación      |
-| updated_at   | timestamp      | Fecha de actualización |
-
-### sales
-
-| Campo        | Tipo         | Descripción            |
-|--------------|--------------|------------------------|
-| sale_id      | primary key  | Identificador único    |
-| user_id      | int unsigned | Usuario vendedor       |
-| cliente_id   | int          | Cliente                |
-| comission_id | int          | Comisión asociada      |
-| created_at   | timestamp    | Fecha de creación      |
-| updated_at   | timestamp    | Fecha de actualización |
-
-### reactions_x_post
-
-| Campo     | Tipo         | Descripción            |
-|-----------|--------------|------------------------|
-| rxp_id    | primary key  | Identificador único    |
-| post_id   | int unsigned | Publicación asociada   |
-| amount    | int          | Cantidad de reacciones |
-| created_at| timestamp    | Fecha de creación      |
-| updated_at| timestamp    | Fecha de actualización |
-
-### details_sale
-
-| Campo           | Tipo         | Descripción            |
-|-----------------|--------------|------------------------|
-| details_sale_id | primary key  | Identificador único    |
-| sale_id         | int          | Venta asociada         |
-| amount          | int          | Cantidad               |
-| total           | float        | Total                  |
-| is_completed    | boolean      | ¿Completada?           |
-| payment_method  | int          | Método de pago         |
-| created_at      | timestamp    | Fecha de creación      |
-| updated_at      | timestamp    | Fecha de actualización |
-
-### payment_methods
-
-| Campo             | Tipo         | Descripción            |
-|-------------------|--------------|------------------------|
-| payment_method_id | primary key  | Identificador único    |
-| title             | varchar(50)  | Título                 |
-| description       | text         | Descripción            |
-| created_at        | timestamp    | Fecha de creación      |
-| updated_at        | timestamp    | Fecha de actualización |
-
-### response_client
-
-| Campo               | Tipo         | Descripción            |
-|---------------------|--------------|------------------------|
-| response_client_id  | primary key  | Identificador único    |
-| user_id             | int unsigned | Usuario asociado       |
-| comission_id        | int          | Comisión asociada      |
-| menssage            | text         | Mensaje                |
-| is_viewed_by_client | boolean      | ¿Visto por el cliente? |
-| created_at          | timestamp    | Fecha de creación      |
-| updated_at          | timestamp    | Fecha de actualización |
-
----
-
-## ✅ Funcionalidades Principales
-
-- Registro e inicio de sesión con JWT
-- Gestión de perfil y redes sociales
-- Publicación de obras (posts con etiquetas y multimedia)
-- Sistema de comisiones artísticas
-- Gestión de ventas y respuestas a clientes
-- Reacciones públicas a publicaciones
-
-🤝 Contribuciones
-Este proyecto fue desarrollado por [Jhon Córdoba] para la artista digital BloodyYue como parte de un portafolio y proyecto de grado. ¡Toda colaboración futura es bienvenida!
-
-📬 Contacto
-Si deseas contactar al desarrollador o a la artista, puedes escribir a:
-
-💻 Jhon Córdoba: GitHub | Email: tuemail@example.com
-
-🎨 BloodyYue: Redes sociales visibles en la plataforma.
+## 🧩 Notas
+- Puedes mover más lógica a `/models` y crear más endpoints en `/pages/api/...`.
+- Si luego agregas Tailwind, importa en `pages/_app.js`.
+- Para producción usa `npm run build` y `npm start`.

@@ -1,0 +1,568 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'lato', sans-serif;
+}
+
+body {
+    height: 100dvh;
+    background: #0A0A0B;
+    color: #F5F5F5;
+}
+
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 10rem;
+    position: relative;
+}
+
+header article {
+    display: inherit;
+    align-items: inherit;
+}
+
+header article h1 {
+    font-size: .9rem;
+    font-family: 'bebas-neue', sans-serif;
+    font-weight: bold;
+    background-color: #f5f5f5;
+    padding: .4rem 1rem;
+    clip-path: polygon(20% 0, 100% 0, 80% 100%, 0 100%);
+}
+
+header article h1 a {
+    text-decoration: none;
+    color: #121212;
+}
+
+header article h2 {
+    font-size: .9rem;
+    font-family: 'bebas-neue', sans-serif;
+    font-weight: bold;
+    color: #999;
+}
+
+.h-menu {
+    display: inherit;
+    align-items: inherit;
+    gap: 3vh;
+}
+
+.h-menu button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform .2s;
+    position: relative;
+    z-index: 1000;
+}
+
+.h-menu button:hover {
+    transform: scale(1.2);
+}
+
+.h-btn-user:hover+.h-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.h-tooltip:hover {
+    opacity: 1;
+    visibility: visible;
+}
+
+.h-tooltip {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .4s;
+    position: absolute;
+    top: 80%;
+    left: 70%;
+    width: 18%;
+    background-color: #1C1C1F;
+    border-radius: 2vh;
+    z-index: 10000;
+}
+
+.h-tooltip::after {
+    content: "";
+    position: absolute;
+    top: -3%;
+    right: 10%;
+    border-left: 2vh solid transparent;
+    border-right: 2vh solid transparent;
+    border-bottom: 2vh solid #1C1D1E;
+}
+
+.h-tooltip ul:first-child {
+    list-style: none;
+}
+
+.h-tooltip ul:first-child li {
+    margin-bottom: 4vh;
+    padding: 3vh;
+    border-radius: 2vh 2vh 0 0;
+}
+
+
+.h-tooltip ul:first-child li:hover {
+    background: linear-gradient(45deg, #8B1C28 0%, #1C1D1E, #1C1D1E 100%);
+}
+
+.h-tooltip ul:first-child li:hover a {
+    color: #D72638;
+}
+
+.h-tooltip ul:first-child li a {
+    display: flex;
+    align-items: center;
+    gap: 2vh;
+    color: #B7CAD3;
+    font-size: .9rem;
+    text-decoration: none;
+}
+
+
+.h-tooltip ul:last-child {
+    list-style: none;
+    background-color: #171819;
+    border-radius: 0 0 2vh 2vh;
+}
+
+.h-tooltip ul:last-child li {
+    padding: 2vh;
+}
+
+.h-tooltip ul:last-child li:hover a {
+    color: #D72638;
+}
+
+.h-tooltip ul:last-child li a {
+    color: #B7CAD3;
+    text-decoration: none;
+}
+
+
+
+dialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100dvh;
+    width: 100vw;
+    background: linear-gradient(45deg, #0a0a0bf9, #1c1c1c);
+    background-size: cover;
+    padding: 16vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all.4s;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 999;
+}
+
+dialog[open] {
+    opacity: 1;
+    visibility: visible;
+}
+
+dialog nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
+}
+
+nav ul li a {
+    color: #5D5E5F;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    font-size: 2.2rem;
+    transition: color 0.2s;
+    font-weight: 10;
+}
+
+nav ul li a:hover {
+    color: #D72638;
+    animation: navHover .2s 1 ease-in-out;
+}
+
+.red-social {
+    align-self: flex-end;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.red-social ul {
+    display: grid;
+    grid-template: repeat(2, 7vh) / repeat(2, 7vh);
+}
+
+.red-social ul li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh;
+    border: .1vh solid #aaa;
+    border-radius: 1vh;
+    transition: background .4s;
+}
+
+.red-social ul li a:hover {
+    background-color: #aaa;
+}
+
+@keyframes navHover {
+    0% {
+        border-bottom: 1px solid;
+        border-image: linear-gradient(to right, transparent, 0% #D72638) 1;
+    }
+
+    100% {
+        border-bottom: 1px solid;
+        border-image: linear-gradient(to right, transparent, #D72638) 1;
+    }
+}
+
+
+
+main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.m-hero {
+    width: 80%;
+    display: inherit;
+    flex-direction: column;
+    gap: 10vh;
+    padding: 10vh 1vh 15vh;
+    position: relative;
+}
+
+.m-hero-titles h2 {
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 4rem;
+    font-weight: 300;
+    letter-spacing: .6vh;
+    margin-bottom: 2vh;
+}
+
+.m-hero-titles h3 {
+    color: #aaa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: .5vh;
+}
+
+
+.m-hero-btns {
+    width: fit-content;
+    padding: 4vh 0;
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+}
+
+.m-hero-btns a {
+    background-color: #121212;
+    padding: 3vh 2vh;
+    border-radius: 10vh;
+    display: inherit;
+    align-items: center;
+    gap: 2vh;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #aaa;
+    border: .2vh solid #aaa;
+    transition: transform .3s, background .4s;
+}
+
+.m-hero-btns a:hover {
+    transform: scale(1.1);
+    background-color: #0A0A0B;
+}
+
+.m-hero-btns .h-hero-btn-commission {
+    border: .2vh solid #D72638;
+    background-color: #D72638;
+}
+
+.m-hero-btns .h-hero-btn-commission:hover {
+    background: linear-gradient(90deg, #D72638, #FF4C5B);
+    border-image: linear-gradient(90deg, #D72638, #FF4C5B);
+}
+
+.m-hero-btns p {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.m-hero-imgs {
+    display: flex;
+    justify-content: end;
+    gap: 6vh;
+    width: 100%;
+    max-width: 72rem;
+    position: absolute;
+    z-index: -1;
+}
+
+.m-hero-imgs div {
+    transform: rotate(30deg);
+    width: 15vh;
+    height: 60vh;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 2vh;
+    animation: fllMove 4s infinite ease-in-out;
+    box-shadow: 10px 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+
+.m-hero-imgs div img {
+    object-fit: cover;
+    opacity: .1;
+    transition: transform 0.5s ease;
+}
+
+@keyframes fllMove {
+    0% {
+        transform: translateY(2vh) rotate(30deg);
+    }
+
+    50% {
+        transform: translateY(0) rotate(30deg);
+    }
+
+    100% {
+        transform: translateY(2vh) rotate(30deg);
+    }
+}
+
+.m-gallery {
+    width: 80%;
+    padding: 2vh 0;
+}
+
+.m-gallery-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2vh;
+}
+
+.m-gallery-header h2 {
+    gap: 2vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: #fff;
+    display: flex;
+    gap: 2vh;
+    align-items: center;
+}
+
+.m-gallery-header a {
+    background-color: #121212;
+    padding: 1.5vh 2vh;
+    border-radius: 10vh;
+    display: inherit;
+    align-items: center;
+    gap: 2vh;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #aaa;
+    border: .2vh solid #aaa;
+    transition: transform .3s, background .4s;
+}
+
+.m-gallery-header a:hover {
+    transform: scale(1.1);
+    background-color: #0A0A0B;
+}
+
+.m-gallery-grid {
+    display: grid;
+    grid-template: repeat(2, 42vh) / 45% repeat(2, 1fr);
+    gap: 2vh;
+    grid-template-areas:
+        'img-one  img-two   img-two'
+        'img-one  img-three img-four';
+}
+
+.m-gallery-grid article {
+    position: relative;
+    border-radius: 4vh;
+}
+
+.m-gallery-grid article img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4vh;
+    position: absolute;
+    opacity: .2;
+}
+
+.m-gallery-item .m-gallery-content {
+    position: relative;
+    z-index: 10000;
+}
+
+.m-gallery-grid article:first-child {
+    grid-area: img-one;
+}
+
+.m-gallery-grid article:nth-child(2) {
+    grid-area: img-two;
+}
+
+.m-gallery-grid article:nth-child(2) {
+    grid-area: img-two;
+}
+
+
+.m-gallery-grid article:nth-child(3) {
+    grid-area: img-three;
+}
+
+.m-gallery-grid article:last-child {
+    grid-area: img-four;
+}
+
+.m-gallery-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 2vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    border-radius: 4vh;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: #fff;
+    padding: 4vh;
+}
+
+.m-gallery-content h3 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: .6vh;
+}
+
+.m-gallery-content p {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 10vh;
+}
+
+.m-gallery-content a,
+.m-gallery-content a {
+    align-self: flex-end;
+    color: #ff4c5b;
+    text-decoration: none;
+    background-color: #121212;
+    padding: 1vh;
+    border-radius: 50%;
+    transition: background .3s;
+}
+
+.m-gallery-content a:hover {
+    background-color: #333;
+}
+
+
+.m-blog {
+    width: 80%;
+    padding: 10vh 0;
+}
+
+.m-blog-header {
+    display: block;
+    padding: 2vh 0;
+    margin-bottom: 4vh;
+}
+
+.m-blog-header h2 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 3rem;
+    font-weight: 500;
+    color: #fff;
+}
+
+.m-blog-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
+}
+
+.m-blog-item ul {
+    list-style: none;
+}
+
+.m-blog-item a {
+    padding: 4vh 0;
+    border-bottom: .2vh solid #444;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: #444;
+    display: flex;
+    gap: 2vh;
+    align-items: center;
+    transition: padding .3s, color .3s;
+    text-decoration: none;
+}
+
+.m-blog-item a:hover {
+    padding-left: 4rem;
+    color: #aaa;
+}
+
+.m-blog-foot {
+    padding: 8vh 0 0;
+}
+
+.m-blog-foot a {
+    width: fit-content;
+    background-color: #121212;
+    padding: 1.5vh 2vh;
+    border-radius: 10vh;
+    display: flex;
+    align-items: center;
+    gap: 2vh;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #aaa;
+    border: .2vh solid #aaa;
+    transition: transform .3s, background .4s;
+}
+
+.m-blog-foot a:hover {
+    transform: scale(1.1);
+    background-color: #0A0A0B;
+}
